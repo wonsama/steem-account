@@ -1,0 +1,92 @@
+extends layout
+
+block content
+
+  //- 제목 표기
+  .account-header
+    .row 
+      .col
+        .h1 STEEM 무료계정 생성
+
+  //- 계정 정보 입력 폼
+  .account-form.mb3
+    .row
+      .col
+        p(style='color:white') 최대 #{pending_claimed_accounts} 개의 계정 생성이 가능합니다.
+        .input-group
+          span.input-group-text @
+          input.form-control(id='account-id' type='text', placeholder='생성 할 계정명을 입력바랍니다.', maxlength=16)
+          span.input-group-text.text-secondary(id='account-checker') 미입력
+        .span(id='account-cause')
+    .row.mt-3
+      .col
+        a.btn.btn-primary.ms-2.disabled(href='#!', id="btn-create") 생성하기
+
+  .col-xs-12(style='height:20px')
+
+  //- 계정 생성 처리결과 - 실패
+  .account-result-fail.invisible
+    .alert.alert-danger(id='result-fail') 120 초 후 신규계정 생성이 가능합니다.
+  
+  //- 계정 생성 처리결과 - 성공
+  .account-result-success.invisible
+    .alert.alert-success(id='result-success') 정상적으로 생성 완료 하였습니다.
+  
+  //- 계정 정보를 표기
+  .account-result-success.invisible
+    table.table
+      thead
+        tr
+          th(scope='col', colspan=3)
+            span(id='result-author') @wonsama 님의 계정 
+            span 생성 결과
+        tr
+          th(scope='col') NO
+          th(scope='col') KEY
+          th(scope='col') VALUE
+      tbody
+        tr
+          th(scope='row') 1
+          td MASTER
+          td(id='key-master') 1111
+        tr
+          th(scope='row') 2
+          td OWNER
+          td(id='key-owner') 2222
+        tr
+          th(scope='row') 3
+          td ACTIVE
+          td(id='key-active') 3333
+        tr
+          th(scope='row') 4
+          td POSTING
+          td(id='key-posting') 4444
+        tr
+          th(scope='row') 5
+          td MEMO
+          td(id='key-memo') 5555
+  
+  //- 계정 생성 처리결과
+  .account-result-success.invisible
+    .alert.alert-warning 새로고침 시 내용은 사라집니다. 반드시 메모하시길 바랍니다.
+    button.btn.btn-primary(id='save-clip', type='button', data-bs-toggle="tooltip" data-bs-placement="top" title="클립보드에 저장 되었습니다.") 클립보드에 저장
+
+  //- 계정 생성모달 
+  .modal.fade(id='account-modal', data-bs-backdrop="static", data-bs-keyboard="false", tabindex="-1", aria-labelledby="staticBackdropLabel", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h5.modal-title 스팀(steem) 계정 생성
+          button.btn-close(id='account-create-close', type="button", data-bs-dismiss="modal", aria-label="Close")
+        .modal-body
+          h4(id='account-name') 계정을 생성 하시겠습니까?
+          .alert.alert-danger [경고] PC방 / 타인의 PC,휴대폰 등에서 사용하지 않기를 권장 드립니다.
+        .modal-footer
+          button.btn.btn-secondary(id='account-create-cancel', type='button', data-bs-dismiss="modal") 취소
+          button.btn.btn-primary(id='account-create', type='button') 생성하기
+          button.btn.btn-primary.disabled.invisible(id='account-create-loading', type='button')
+            span.spinner-grow.spinner-grow-sm(role='status', aria-hidden='true')
+            | 처리중 ...
+
+  script(src='https://cdn.jsdelivr.net/npm/steem/dist/steem.min.js')
+  script(src='/javascripts/js-create.js')

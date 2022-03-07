@@ -1,0 +1,25 @@
+extends layout
+
+block content
+
+  //- 제목 표기
+  .account-header
+    .row 
+      .col
+        .h1 STEEM 무료계정 생성
+
+  //- 계정 정보를 표기
+  .account-info
+    .card(style='width:18rem;')
+      img.card-img-top(src='/images/touch-screen-g419463f53_640.jpg')
+      .card-body
+        h5.card-title.text-danger 계정생성 주의사항
+        ul
+          li 계정 생성시 서버에는 어떠한 정보도 남기지 않습니다. 
+          li 계정 생성이후 즉시 master 비밀번호를 변경하는 것을 강력 추천 드립니다.
+        a.btn.btn-primary(href='/create') STEEM 계정 생성
+  //- 계정 생성 정보 입력
+  .account-form
+
+  //- 계정 생성에 따른 주의사항
+  .account-warning

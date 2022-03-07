@@ -1,0 +1,12 @@
+/* bx-header ~ bx-side-nav{
+  margin-top: 3rem;
+  height: calc(100% - 3rem);
+}
+.content{
+  margin-top: 3rem;
+  height: calc(100% - 3rem);
+} */
+
+body{
+  padding: 1em;
+}
