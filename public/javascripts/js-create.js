@@ -8,9 +8,6 @@ let account_create_cancel;
 let account_create_close;
 let account_create_loading;
 let save_clip;
-let saved_result = {};
-
-//   navigator.clipboard.writeText(copyText.value);
 
 /**
  * 출력 문자열 값을 처리
@@ -104,10 +101,24 @@ window.onload = function () {
     modal_target.show();
   });
 
-  // 클립봅드에 저장
-  new bootstrap.Tooltip(save_clip);
-  save_clip.addEventListener("click", function () {
-    navigator.clipboard.writeText(JSON.stringify(saved_result, null, 2));
+  // 클립보드에 저장
+  new ClipboardJS(".btn-clipboard");
+  save_clip.addEventListener("click", function (e) {
+    save_clip.setAttribute(
+      "class",
+      "button btn btn-danger btn-clipboard disabled"
+    );
+    save_clip.innerHTML = "클립보드에 저장되었습니다.";
+    setTimeout(() => {
+      save_clip.setAttribute("class", "button btn btn-primary btn-clipboard");
+      save_clip.innerHTML = "클립보드에 저장";
+    }, 3000);
+  });
+
+  // 토스트
+  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
+  var toastList = toastElList.map(function (toastEl) {
+    return new bootstrap.Toast(toastEl);
   });
 
   // 계정 생성
@@ -155,10 +166,16 @@ window.onload = function () {
           for (let key of ["posting", "active", "master", "owner", "memo"]) {
             document.querySelector(`#key-${key}`).innerHTML = res[key];
           }
-          saved_result = res;
+
+          document
+            .querySelector("#save-clip")
+            .setAttribute("data-clipboard-text", JSON.stringify(res, null, 2));
           document.querySelector(
             "#result-author"
           ).innerHTML = `@${res.author} 님의 계정 생성결과`;
+          toastList.forEach((item, index) => {
+            item.show();
+          });
           account_id.value = "";
           account_id.dispatchEvent(new Event("change"));
         } else {
@@ -171,8 +188,6 @@ window.onload = function () {
           document.querySelector(
             "#result-fail"
           ).innerHTML = `${res.remain} 초 후 다시 시도 바랍니다. 계정은 ${res.permin} 분 마다 1개 생성 할 수 있습니다.`;
-
-          saved_result = {};
         }
       })
       .catch((err) => {
@@ -185,7 +200,6 @@ window.onload = function () {
         document.querySelector(
           "#result-fail"
         ).innerHTML = `네트워크 오류가 발생 하였습니다. 잠시 후 시도 바랍니다.`;
-        saved_result = {};
       })
       .finally(() => {
         // show result

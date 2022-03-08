@@ -68,8 +68,20 @@ block content
   
   //- 계정 생성 처리결과
   .account-result-success.invisible
-    .alert.alert-warning 새로고침 시 내용은 사라집니다. 반드시 메모하시길 바랍니다.
-    button.btn.btn-primary(id='save-clip', type='button', data-bs-toggle="tooltip" data-bs-placement="top" title="클립보드에 저장 되었습니다.") 클립보드에 저장
+    .alert.alert-warning 새로고침 시 내용은 사라집니다. 반드시 별도로 메모하시길 바랍니다.
+    button.btn.btn-primary.btn-clipboard(id='save-clip', data-clipboard-text='', type='button', data-bs-toggle="tooltip" data-bs-placement="top") 클립보드에 저장
+
+  //- Toast
+  .d-flex.justify-content-center.align-items-center.w-100(aria-live="polite",aria-atomic="true")
+    .toast-container.position-absolute.top-0.end-0.p-3
+      //- Toast layout sample
+      .toast(role="alert",aria-live="assertive",aria-atomic="true")
+        .toast-header
+          img(src='/images/alert.png',class="rounded me-2")
+          strong.me-auto 알림
+          small.text-muted 방금 전
+          button.btn-close(type='button', data-bs-dismiss='toast', aria-label='Close')
+        .toast-body 계정 생성이 완료 되었습니다.
 
   //- 계정 생성모달 
   .modal.fade(id='account-modal', data-bs-backdrop="static", data-bs-keyboard="false", tabindex="-1", aria-labelledby="staticBackdropLabel", aria-hidden="true")
@@ -88,5 +100,6 @@ block content
             span.spinner-grow.spinner-grow-sm(role='status', aria-hidden='true')
             | 처리중 ...
 
+  script(src='https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js')
   script(src='https://cdn.jsdelivr.net/npm/steem/dist/steem.min.js')
   script(src='/javascripts/js-create.js')

@@ -27,12 +27,17 @@ router.post("/", async function (req, res, next) {
   if (!req.session.data || current - req.session.data.time > MIN_GAP) {
     let master = steem.formatter.createSuggestedPassword();
     try {
+      // 계정 생성
       await create_claimed_account(
         CREATOR_ID,
         CREATOR_ACTIVE_KEY,
         req.body.author,
         master
       );
+
+      // FOR TEST
+      // await new Promise((resolve, reject) => setTimeout(resolve, 1000 * 3));
+
       // RETURN : SUCCESS
       req.session.data = {
         time: new Date().getTime(),
